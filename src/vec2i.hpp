@@ -1,11 +1,35 @@
 #pragma once
+#include <raylib.h>
 
 struct Vec2i {
 public:
 	int x = 0, y = 0;
+
+	// Turn a level index into world x,y coordinates.
+	static Vec2i world_pos_from_loc(size_t index);
+
+	constexpr operator Vector2() const
+	{
+		return Vector2{static_cast<float>(x), static_cast<float>(y)};
+	}
 };
 
-inline Vec2i operator+(Vec2i lh, Vec2i rh)
+constexpr Vec2i operator+(Vec2i lh, Vec2i rh)
 {
 	return Vec2i{lh.x + rh.x, lh.y + rh.y};
+}
+
+constexpr Vec2i operator-(Vec2i lh, Vec2i rh)
+{
+	return Vec2i{lh.x - rh.x, lh.y - rh.y};
+}
+
+constexpr Vec2i operator*(Vec2i lh, Vec2i rh)
+{
+	return Vec2i{lh.x * rh.x, lh.y * rh.y};
+}
+
+constexpr Vec2i operator*(Vec2i lh, int rh)
+{
+	return Vec2i{lh.x * rh, lh.y * rh};
 }

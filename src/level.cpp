@@ -11,6 +11,12 @@
 constexpr Vec2i TileSize = {32, 32};
 constexpr Vec2i TileDimensions = {20, 10};
 
+Vec2i Vec2i::world_pos_from_loc(size_t index)
+{
+	const int tiled_x = static_cast<int>(index % TileSize.x);
+	const int tiled_y = static_cast<int>(index / TileSize.y);
+	return Vec2i{tiled_x, tiled_y} * TileSize;
+}
 LevelBase::LevelBase() {}
 
 std::pair<Tile, Vec2i> LevelBase::get_overlapping_tile(Rectangle rect) const
