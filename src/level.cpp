@@ -11,9 +11,9 @@
 constexpr Vec2i TileSize = {32, 32};
 constexpr Vec2i TileDimensions = {20, 10};
 
-ILevel::ILevel() {}
+LevelBase::LevelBase() {}
 
-std::pair<Tile, Vec2i> ILevel::get_overlapping_tile(Rectangle rect) const
+std::pair<Tile, Vec2i> LevelBase::get_overlapping_tile(Rectangle rect) const
 {
 	const std::string_view level_data = get_level_data();
 	const auto [tile_index, rect_grid_position] =
@@ -59,7 +59,9 @@ std::pair<Tile, Vec2i> ILevel::get_overlapping_tile(Rectangle rect) const
 	return std::pair{Tile::AIR, Vec2i{}};
 }
 
-void ILevel::draw() const
+void LevelBase::draw() const { draw_level(); }
+
+void LevelBase::draw_level() const
 {
 	const std::string_view level_data = get_level_data();
 	for (int i = 0; i < (TileDimensions.x * TileDimensions.y); i++) {
@@ -81,10 +83,11 @@ void ILevel::draw() const
 				break;
 			}
 
-			default:
+			default: {
 				throw std::runtime_error(
 					std::string("invalid character! '") + ch + "'!"
 				);
+			}
 		}
 	}
 }

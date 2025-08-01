@@ -1,8 +1,9 @@
 #pragma once
-#include "level.hpp"
 #include "player.hpp"
 
 #include <memory>
+
+class LevelBase;
 
 constexpr struct {
 	int x, y;
@@ -11,9 +12,10 @@ constexpr struct {
 struct Game {
 public:
 	Game();
+	~Game();
 
 	Player player;
-	std::unique_ptr<ILevel> current_level;
+	std::unique_ptr<LevelBase> current_level;
 
 public:
 	void update();

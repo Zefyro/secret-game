@@ -1,7 +1,7 @@
 #pragma once
 #include "level.hpp"
 
-class Level1 final : public ILevel {
+class Level1 final : public LevelBase {
 public:
 	Level1() = default;
 	~Level1() override {};
