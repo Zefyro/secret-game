@@ -1,8 +1,6 @@
 #include "game.hpp"
-#include "player.hpp"
-
 #include "levels/level1.hpp"
-
+#include "player.hpp"
 #include <raylib.h>
 
 Game::Game() { current_level = std::make_unique<Level1>(); }
