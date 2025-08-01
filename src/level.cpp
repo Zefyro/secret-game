@@ -13,31 +13,30 @@ ILevel::ILevel() {}
 
 void ILevel::draw() const
 {
-	int tile_x = 0, tile_y = 0;
-	for (char ch : get_level_data()) {
-		int draw_x = tile_x * TileSize.x;
-		int draw_y = tile_y * TileSize.y;
+	const std::string_view level_data = get_level_data();
+	for (int i = 0; i < (TileDimensions.x * TileDimensions.y); i++) {
+		char ch = level_data[i];
+		int draw_x = (i % TileDimensions.x) * TileSize.x;
+		int draw_y = (i / TileDimensions.x) * TileSize.y;
 
 		switch (ch) {
 			case '.': {
 				break;
 			}
 			case '#': {
-				DrawTexture(TextureCache::load("./imgs/block.png"), draw_x, draw_y, WHITE);
+				DrawTexture(
+					TextureCache::load("./imgs/block.png"),
+					draw_x,
+					draw_y,
+					WHITE
+				);
 				break;
-			}
-			// We know that new line as the separator for lines is slow,
-			// than using a fix-sized array, but this is easier to prototype with :^)
-			case '\n': {
-				tile_x = 0;
-				tile_y++;
-				continue;
 			}
 
 			default:
-				throw std::runtime_error(std::string("invalid character! '") + ch + "'!");
+				throw std::runtime_error(
+					std::string("invalid character! '") + ch + "'!"
+				);
 		}
-
-		tile_x++;
 	}
 }
