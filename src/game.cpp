@@ -2,11 +2,20 @@
 #include "player.hpp"
 #include <raylib.h>
 
-void Game::update() { player.update(); }
+Game::Game() { current_level = std::make_unique<Level1>(); }
+
+void Game::update()
+{
+	current_level->update(player);
+	player.update();
+}
+
 void Game::draw()
 {
 	ClearBackground(RAYWHITE);
-	DrawFPS(80, 80);
 
-	DrawRectangleV(player.position, player.size, DARKGRAY);
+	current_level->draw();
+	player.draw();
+
+	DrawFPS(80, 80);
 }

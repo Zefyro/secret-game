@@ -4,6 +4,7 @@
 class Player {
 public:
 	void update();
+	void draw() const;
 
 public:
 	Vector2 position{500, 300};

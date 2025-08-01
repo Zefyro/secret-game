@@ -17,3 +17,5 @@ void Player::update()
 	}
 	position.y += gravity * GetFrameTime();
 }
+
+void Player::draw() const { DrawRectangleV(position, size, DARKGRAY); }
