@@ -3,6 +3,8 @@ project(GMTK-2025)
 
 set(SRC_FILES
 	src/systems/texture_cacher.cpp src/systems/texture_cacher.hpp
+	
+  src/levels/level1.cpp src/levels/level1.hpp
 	src/level.cpp src/level.hpp
 	
 	src/player.cpp src/player.hpp
@@ -34,6 +36,8 @@ endif()
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
 target_link_libraries(${PROJECT_NAME} raylib)
+target_include_directories(${PROJECT_NAME} PRIVATE ./src)
+
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_EXTENSIONS OFF)
