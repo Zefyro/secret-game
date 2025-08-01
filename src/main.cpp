@@ -17,6 +17,9 @@ int main()
 		game.draw();
 		EndDrawing();
 	}
+
+	TextureCache::unload_all();
+
 	CloseWindow();
 
 	return 0;

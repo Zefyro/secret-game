@@ -17,7 +17,7 @@ Texture2D TextureCache::load(std::string&& fpath)
 		throw std::runtime_error("A file at '" + fpath + "' doesn't exist!");
 	}
 	Texture2D texture = LoadTexture(fpath.c_str());
-	// return s_Textures[fpath] = texture;
+	return s_Textures[fpath] = texture;
 }
 
 void TextureCache::unload_all()
