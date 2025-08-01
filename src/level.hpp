@@ -1,6 +1,7 @@
 #pragma once
 #include <raylib.h>
 #include <string_view>
+#include <utility>
 
 class Player;
 
@@ -15,7 +16,7 @@ public:
 
 	// Only returns the first tile that is being overlapped with!
 	// Returns AIR tile if no other tile is being overlapped!
-	Tile get_overlapping_tile(Rectangle rect) const;
+	std::pair<Tile, Vec2i> ILevel::get_overlapping_tile(Rectangle rect) const;
 
 protected:
 	virtual std::string_view get_level_data() const = 0;

@@ -13,7 +13,7 @@ constexpr Vec2i TileDimensions = {20, 10};
 
 ILevel::ILevel() {}
 
-Tile ILevel::get_overlapping_tile(Rectangle rect) const
+std::pair<Tile, Vec2i> ILevel::get_overlapping_tile(Rectangle rect) const
 {
 	const std::string_view level_data = get_level_data();
 	const auto [tile_index, rect_grid_position] =
@@ -49,12 +49,14 @@ Tile ILevel::get_overlapping_tile(Rectangle rect) const
 			};
 
 			if (CheckCollisionRecs(rect, hitbox)) {
-				return current_tile;
+				return std::pair{
+					current_tile, Vec2i{offx, offy} + rect_grid_position
+				};
 			}
 		}
 	}
 
-	return Tile::AIR;
+	return std::pair{Tile::AIR, Vec2i{}};
 }
 
 void ILevel::draw() const
