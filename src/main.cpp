@@ -1,5 +1,7 @@
 #include "game.hpp"
 #include "player.hpp"
+#include "systems/texture_cacher.hpp"
+
 #include <raylib.h>
 
 int main()

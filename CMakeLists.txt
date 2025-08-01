@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.11) # FetchContent is available in 3.11+
 project(GMTK-2025)
 
 set(SRC_FILES
+	src/systems/texture_cacher.cpp src/systems/texture_cacher.hpp
+	
 	src/main.cpp
 	src/player.cpp src/player.hpp
 	src/game.cpp src/game.hpp
