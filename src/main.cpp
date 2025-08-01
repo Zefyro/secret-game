@@ -4,9 +4,13 @@
 
 #include <raylib.h>
 
+constexpr struct {
+	int x, y;
+} BaseResolution{640, 360};
+
 int main()
 {
-	InitWindow(1280, 720, "GMTK-2025");
+	InitWindow(BaseResolution.x, BaseResolution.y, "GMTK-2025");
 	SetTargetFPS(0);
 
 	Game game;
