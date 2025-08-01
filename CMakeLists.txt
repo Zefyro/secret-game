@@ -27,4 +27,8 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 endif()
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
+
 target_link_libraries(${PROJECT_NAME} raylib)
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_EXTENSIONS OFF)
