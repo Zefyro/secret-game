@@ -2,9 +2,14 @@
 #include "level.hpp"
 #include "levels/level1.hpp"
 #include "player.hpp"
+
 #include <raylib.h>
 
-Game::Game() { current_level = std::make_unique<Level1>(); }
+Game::Game()
+{
+	current_level = std::make_unique<Level1>();
+	player.position = current_level->get_player_spawn_tile();
+}
 
 Game::~Game() = default;
 

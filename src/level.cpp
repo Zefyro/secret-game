@@ -4,6 +4,7 @@
 #include "vec2i.hpp"
 
 #include <iostream>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -17,6 +18,43 @@ Vec2i Vec2i::world_pos_from_loc(size_t index)
 	const int tiled_y = static_cast<int>(index / TileSize.y);
 	return Vec2i{tiled_x, tiled_y} * TileSize;
 }
+
+static std::optional<Texture2D> get_texture_for_tile(Tile tile)
+{
+	switch (tile) {
+		case Tile::BLOCK: {
+			return TextureCache::load("./imgs/block.png");
+		}
+		case Tile::SPIKE: {
+			return TextureCache::load("./imgs/spike.png");
+		}
+		case Tile::GOAL: {
+			return TextureCache::load("./imgs/goal.png");
+		}
+		case Tile::SPAWN:
+		case Tile::AIR: {
+			return std::optional<Texture2D>{};
+		}
+	}
+
+	throw std::runtime_error("invalid character!");
+}
+
+static bool is_tile_solid(Tile tile)
+{
+	switch (tile) {
+		case Tile::BLOCK:
+		case Tile::SPIKE:
+			return true;
+		case Tile::GOAL:
+		case Tile::SPAWN:
+		case Tile::AIR:
+			return false;
+	}
+
+	throw std::runtime_error("invalid character!");
+}
+
 LevelBase::LevelBase() {}
 
 std::pair<Tile, Vec2i> LevelBase::get_overlapping_tile(Rectangle rect) const
@@ -32,7 +70,7 @@ std::pair<Tile, Vec2i> LevelBase::get_overlapping_tile(Rectangle rect) const
 
 	for (int offx = -1; offx <= 1; offx++) {
 		for (int offy = -1; offy <= 1; offy++) {
-			// @TODO: wrapping
+			// @TODO: screen wrapping
 			int level_index = tile_index + offx + (offy * TileDimensions.x);
 			if (level_index >= (TileDimensions.x * TileDimensions.y)) {
 				continue;
@@ -43,7 +81,7 @@ std::pair<Tile, Vec2i> LevelBase::get_overlapping_tile(Rectangle rect) const
 
 			const Tile current_tile =
 				static_cast<Tile>(level_data[level_index]);
-			if (current_tile == Tile::AIR) {
+			if (!is_tile_solid(current_tile)) {
 				continue;
 			}
 
@@ -65,24 +103,24 @@ std::pair<Tile, Vec2i> LevelBase::get_overlapping_tile(Rectangle rect) const
 	return std::pair{Tile::AIR, Vec2i{}};
 }
 
-void LevelBase::draw() const { draw_level(); }
-
-Texture2D get_texture_for_tile(Tile tile)
+Vec2i LevelBase::get_player_spawn_tile() const
 {
-	switch (tile) {
-		case Tile::AIR: {
-			throw std::runtime_error("No texture for tile 'AIR'");
+	const std::string_view level_data = get_level_data();
+	auto spawn_location = std::find_if(
+		std::begin(level_data), std::end(level_data), [&level_data](char ch) {
+			return ch == static_cast<char>(Tile::SPAWN);
 		}
-		case Tile::BLOCK: {
-			return TextureCache::load("./imgs/block.png");
-		}
-		case Tile::SPIKE: {
-			return TextureCache::load("./imgs/spike.png");
-		}
+	);
+
+	if (spawn_location == std::end(level_data)) {
+		throw std::runtime_error("no spawn location defined!");
 	}
 
-	throw std::runtime_error("invalid character!");
+	const size_t index = std::distance(std::begin(level_data), spawn_location);
+	return Vec2i::world_pos_from_loc(index);
 }
+
+void LevelBase::draw() const { draw_level(); }
 
 void LevelBase::draw_level() const
 {
@@ -90,14 +128,11 @@ void LevelBase::draw_level() const
 	for (int i = 0; i < (TileDimensions.x * TileDimensions.y); i++) {
 		char ch = level_data[i];
 
-		if (ch == '.') {
-			continue;
-		}
-
 		int draw_x = (i % TileDimensions.x) * TileSize.x;
 		int draw_y = (i / TileDimensions.x) * TileSize.y;
 
-		Texture2D tile_texture = get_texture_for_tile(static_cast<Tile>(ch));
-		DrawTexture(tile_texture, draw_x, draw_y, WHITE);
+		if (auto texture = get_texture_for_tile(static_cast<Tile>(ch))) {
+			DrawTexture(texture.value(), draw_x, draw_y, WHITE);
+		}
 	}
 }
