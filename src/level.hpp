@@ -3,6 +3,8 @@
 #include <string_view>
 #include <utility>
 
+#include "vec2i.hpp"
+
 class Player;
 
 enum class Tile : char { AIR = '.', BLOCK = '#' };
