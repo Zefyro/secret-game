@@ -9,6 +9,7 @@ set(SRC_FILES
 	
 	src/player.cpp src/player.hpp
 	src/game.cpp src/game.hpp
+	src/vec2i.hpp
 	src/main.cpp
 )
 
