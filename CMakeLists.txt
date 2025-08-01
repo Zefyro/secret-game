@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.11) # FetchContent is available in 3.11+
 project(GMTK-2025)
 
+set(SRC_FILES
+	src/main.cpp
+)
+
+
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -21,5 +26,5 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
   endif()
 endif()
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+add_executable(${PROJECT_NAME} ${SRC_FILES})
 target_link_libraries(${PROJECT_NAME} raylib)
