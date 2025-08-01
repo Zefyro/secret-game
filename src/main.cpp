@@ -7,7 +7,7 @@
 int main()
 {
 	InitWindow(BaseResolution.x, BaseResolution.y, "GMTK-2025");
-	SetTargetFPS(0);
+	SetTargetFPS(60);
 
 	Game game;
 
