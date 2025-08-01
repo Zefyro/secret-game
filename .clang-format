@@ -19,7 +19,6 @@ AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: true # false
 BinPackArguments: false
-BinPackParameters: OnePerLine
 BreakBeforeBinaryOperators: None
 BreakBeforeBraces: Stroustrup # Attach
 BreakBeforeInheritanceComma: false
