@@ -61,33 +61,37 @@ std::pair<Tile, Vec2i> LevelBase::get_overlapping_tile(Rectangle rect) const
 
 void LevelBase::draw() const { draw_level(); }
 
+Texture2D get_texture_for_tile(Tile tile)
+{
+	switch (tile) {
+		case Tile::AIR: {
+			throw std::runtime_error("No texture for tile 'AIR'");
+		}
+		case Tile::BLOCK: {
+			return TextureCache::load("./imgs/block.png");
+		}
+		case Tile::SPIKE: {
+			return TextureCache::load("./imgs/spike.png");
+		}
+	}
+
+	throw std::runtime_error("invalid character!");
+}
+
 void LevelBase::draw_level() const
 {
 	const std::string_view level_data = get_level_data();
 	for (int i = 0; i < (TileDimensions.x * TileDimensions.y); i++) {
 		char ch = level_data[i];
+
+		if (ch == '.') {
+			continue;
+		}
+
 		int draw_x = (i % TileDimensions.x) * TileSize.x;
 		int draw_y = (i / TileDimensions.x) * TileSize.y;
 
-		switch (ch) {
-			case '.': {
-				break;
-			}
-			case '#': {
-				DrawTexture(
-					TextureCache::load("./imgs/block.png"),
-					draw_x,
-					draw_y,
-					WHITE
-				);
-				break;
-			}
-
-			default: {
-				throw std::runtime_error(
-					std::string("invalid character! '") + ch + "'!"
-				);
-			}
-		}
+		Texture2D tile_texture = get_texture_for_tile(static_cast<Tile>(ch));
+		DrawTexture(tile_texture, draw_x, draw_y, WHITE);
 	}
 }

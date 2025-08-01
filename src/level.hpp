@@ -7,7 +7,7 @@
 
 class Player;
 
-enum class Tile : char { AIR = '.', BLOCK = '#' };
+enum class Tile : char { AIR = '.', BLOCK = '#', SPIKE = 'A' };
 
 class LevelBase {
 public:
