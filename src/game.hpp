@@ -4,6 +4,10 @@
 
 #include <memory>
 
+constexpr struct {
+	int x, y;
+} BaseResolution{640, 360};
+
 struct Game {
 public:
 	Game();

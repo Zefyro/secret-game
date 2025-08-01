@@ -4,10 +4,6 @@
 
 #include <raylib.h>
 
-constexpr struct {
-	int x, y;
-} BaseResolution{640, 360};
-
 int main()
 {
 	InitWindow(BaseResolution.x, BaseResolution.y, "GMTK-2025");
