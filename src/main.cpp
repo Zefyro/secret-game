@@ -1,20 +1,21 @@
+#include "game.hpp"
+#include "player.hpp"
 #include <raylib.h>
 
 int main()
 {
-    InitWindow(1280, 720, "GMTK-2025");
+	InitWindow(1280, 720, "GMTK-2025");
+	SetTargetFPS(0);
 
-    SetTargetFPS(0);
+	Game game;
 
-    while (!WindowShouldClose()) {
-        BeginDrawing();
+	while (!WindowShouldClose()) {
+		game.update();
+		BeginDrawing();
+		game.draw();
+		EndDrawing();
+	}
+	CloseWindow();
 
-        ClearBackground(RAYWHITE);
-        DrawFPS(80, 80);
-
-        EndDrawing();
-    }
-    CloseWindow();
-
-    return 0;
+	return 0;
 }

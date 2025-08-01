@@ -4,6 +4,7 @@ project(GMTK-2025)
 set(SRC_FILES
 	src/main.cpp
 	src/player.cpp src/player.hpp
+	src/game.cpp src/game.hpp
 )
 
 
