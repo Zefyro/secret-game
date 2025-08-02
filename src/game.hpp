@@ -1,13 +1,12 @@
 #pragma once
 #include "player.hpp"
+#include "vec2i.hpp"
 
 #include <memory>
 
 class LevelBase;
 
-constexpr struct {
-	int x, y;
-} BaseResolution{640, 360};
+constexpr Vec2i BaseResolution{640, 360};
 
 struct Game {
 public:
