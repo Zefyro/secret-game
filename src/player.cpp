@@ -24,13 +24,15 @@ void Player::update(const LevelBase& level)
 	const float delta = GetFrameTime();
 	velocity.y += gravity * delta;
 
+	update_grounded(level);
+
 	if (IsKeyDown(KEY_A)) {
 		velocity.x -= ground_accelration * delta;
 	}
 	if (IsKeyDown(KEY_D)) {
 		velocity.x += ground_accelration * delta;
 	}
-	if (IsKeyPressed(KEY_W)) {
+	if (IsKeyPressed(KEY_W) && on_ground) {
 		velocity.y = -jump_velocity;
 	}
 
@@ -94,6 +96,15 @@ void Player::move_and_slide(const LevelBase& level)
 			velocity.y = 0.0f;
 		}
 	}
+}
+
+void Player::update_grounded(const LevelBase& level)
+{
+	// Positioned 1 pixel under feet.
+	const Rectangle grounded_hitbox = {
+		position.x, position.y + size.y, size.x, 1
+	};
+	on_ground = level.get_overlapping_tile(grounded_hitbox).first != Tile::AIR;
 }
 
 void Player::draw() const

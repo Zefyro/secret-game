@@ -14,8 +14,9 @@ public:
 	Vector2 position{500, 300};
 	Vector2 velocity{0.0f, 0.0f};
 	Vector2 size{30, 30};
-	bool onGround{true};
+	bool on_ground{true};
 
 private:
 	void move_and_slide(const LevelBase& level);
+	void update_grounded(const LevelBase& level);
 };
