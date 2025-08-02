@@ -4,7 +4,6 @@
 
 #include "systems/texture_cacher.hpp"
 
-#include <iostream>
 #include <raylib.h>
 
 Rectangle Player::get_as_rectangle() const
@@ -18,8 +17,11 @@ void Player::update(const LevelBase& level)
 	constexpr float ground_deacceleration = 0.18f;
 	constexpr float ground_max_speed = 7.2f;
 
-	constexpr float jump_velocity = 4.2f;
-	constexpr float gravity = 9.81f;
+	constexpr float jump_initial_force = 5.25f;
+	constexpr float jump_hold_force = 8.45f;
+	constexpr float gravity = 19.4f;
+
+	static_assert(gravity > jump_hold_force, "infinite jumping");
 
 	const float delta = GetFrameTime();
 	velocity.y += gravity * delta;
@@ -33,7 +35,10 @@ void Player::update(const LevelBase& level)
 		velocity.x += ground_accelration * delta;
 	}
 	if (IsKeyPressed(KEY_W) && on_ground) {
-		velocity.y = -jump_velocity;
+		velocity.y = -jump_initial_force;
+	}
+	if (IsKeyDown(KEY_W) && velocity.y < 0.0f) {
+		velocity.y -= jump_hold_force * delta;
 	}
 
 	// Cap speed
