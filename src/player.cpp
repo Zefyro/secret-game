@@ -13,23 +13,25 @@ Rectangle Player::get_as_rectangle() const
 
 void Player::update(const LevelBase& level)
 {
-	float movement_speed = 500.0f;
-	float jump_velocity = 40.0f;
-	float gravity = 9.81f * 1;
+	constexpr float ground_accelration = 204.0f;
+	constexpr float ground_deacceleration = 0.18f;
+	constexpr float jump_velocity = 4.2f;
+	constexpr float gravity = 9.81f;
+
+	const float delta = GetFrameTime();
+	velocity.y += gravity * delta;
+
 	if (IsKeyDown(KEY_A)) {
-		velocity.x = -movement_speed * GetFrameTime();
+		velocity.x = -ground_accelration * delta;
 	}
 	if (IsKeyDown(KEY_D)) {
-		velocity.x = movement_speed * GetFrameTime();
+		velocity.x = ground_accelration * delta;
 	}
 	if (IsKeyPressed(KEY_W)) {
-		velocity.y -= jump_velocity;
+		velocity.y = -jump_velocity;
 	}
 
-	if (!onGround) {
-		velocity.y += gravity * GetFrameTime();
-	}
-
+	// Wrapping
 	if (position.y >= BaseResolution.y) {
 		position.y = 0;
 	}
@@ -43,8 +45,7 @@ void Player::update(const LevelBase& level)
 		position.x = (float)BaseResolution.x;
 	}
 
-	velocity.x *= 0.9f;
-	velocity.y *= 0.2f;
+	velocity.x = lerp(velocity.x, 0.0f, ground_deacceleration);
 
 	move_and_slide(level);
 }
@@ -65,6 +66,7 @@ void Player::move_and_slide(const LevelBase& level)
 			if (velocity.x < 0.0f) {
 				position.x = collision_x + TileSize.x;
 			}
+			velocity.x = 0.0f;
 		}
 	}
 
@@ -80,6 +82,7 @@ void Player::move_and_slide(const LevelBase& level)
 			if (velocity.y < 0.0f) {
 				position.y = collision_y + TileSize.y;
 			}
+			velocity.y = 0.0f;
 		}
 	}
 }

@@ -33,3 +33,9 @@ constexpr Vec2i operator*(Vec2i lh, int rh)
 {
 	return Vec2i{lh.x * rh, lh.y * rh};
 }
+
+template <typename T>
+constexpr float lerp(const T& initial, const T& target, float time)
+{
+	return initial + time * (target - initial);
+}
