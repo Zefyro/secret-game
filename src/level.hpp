@@ -7,6 +7,9 @@
 
 class Player;
 
+constexpr Vec2i TileSize = {32, 32};
+constexpr Vec2i TileDimensions = {20, 10};
+
 enum class Tile : char {
 	AIR = '.',
 	BLOCK = '#',
@@ -23,6 +26,7 @@ public:
 
 	// Only returns the first tile that is being overlapped with!
 	// Returns AIR tile if no other tile is being overlapped!
+	// The Vec2i returns the position of the collided block, IN 2D ARRAY SPACE!
 	std::pair<Tile, Vec2i> get_overlapping_tile(Rectangle rect) const;
 	Vec2i get_player_spawn_tile() const;
 

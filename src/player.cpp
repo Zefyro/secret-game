@@ -1,9 +1,17 @@
 #include "player.hpp"
 #include "game.hpp"
+#include "level.hpp"
+
 #include "systems/texture_cacher.hpp"
+
 #include <raylib.h>
 
-void Player::update()
+Rectangle Player::get_as_rectangle() const
+{
+	return Rectangle{position.x, position.y, size.x, size.y};
+}
+
+void Player::update(const LevelBase& level)
 {
 	float movement_speed = 500.0f;
 	float jump_velocity = 40.0f;
@@ -35,10 +43,48 @@ void Player::update()
 		position.x = (float)BaseResolution.x;
 	}
 
-	position.x += velocity.x;
-	position.y += velocity.y;
 	velocity.x *= 0.9f;
 	velocity.y *= 0.2f;
+
+	move_and_slide(level);
 }
 
-void Player::draw() const { DrawTextureV(TextureCache::load("./imgs/block.png"), position, BLUE); }
+void Player::move_and_slide(const LevelBase& level)
+{
+	// Move in x-axis first, then resolve a possible collision.
+	// Then move in y-axis, resolve the possible collision.
+	position.x += velocity.x;
+	if (position.x != 0.0f) {
+		auto tile_collision = level.get_overlapping_tile(get_as_rectangle());
+		if (tile_collision.first != Tile::AIR) {
+			float collision_x =
+				static_cast<float>(tile_collision.second.x * TileSize.x);
+			if (velocity.x > 0.0f) {
+				position.x = collision_x - size.x;
+			}
+			if (velocity.x < 0.0f) {
+				position.x = collision_x + TileSize.x;
+			}
+		}
+	}
+
+	position.y += velocity.y;
+	if (position.y != 0.0f) {
+		auto tile_collision = level.get_overlapping_tile(get_as_rectangle());
+		if (tile_collision.first != Tile::AIR) {
+			float collision_y =
+				static_cast<float>(tile_collision.second.y * TileSize.y);
+			if (velocity.y > 0.0f) {
+				position.y = collision_y - size.y;
+			}
+			if (velocity.y < 0.0f) {
+				position.y = collision_y + TileSize.y;
+			}
+		}
+	}
+}
+
+void Player::draw() const
+{
+	DrawTextureV(TextureCache::load("./imgs/block.png"), position, BLUE);
+}

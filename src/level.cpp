@@ -9,9 +9,6 @@
 #include <string>
 #include <utility>
 
-constexpr Vec2i TileSize = {32, 32};
-constexpr Vec2i TileDimensions = {20, 10};
-
 Vec2i Vec2i::world_pos_from_loc(size_t index)
 {
 	const int tiled_x = static_cast<int>(index % TileSize.x);

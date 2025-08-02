@@ -16,7 +16,7 @@ Game::~Game() = default;
 void Game::update()
 {
 	current_level->update(player);
-	player.update();
+	player.update(*current_level);
 }
 
 void Game::draw()
