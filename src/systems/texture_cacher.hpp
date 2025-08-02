@@ -6,7 +6,7 @@
 
 class TextureCache {
 public:
-	static [[nodiscard]] Texture2D load(std::string&& fpath);
+	[[nodiscard]] static Texture2D load(std::string&& fpath);
 	static void unload_all();
 
 private:
