@@ -3,7 +3,7 @@
 #include "systems/texture_cacher.hpp"
 #include "vec2i.hpp"
 
-#include <iostream>
+#include <algorithm>
 #include <optional>
 #include <stdexcept>
 #include <string>
@@ -103,11 +103,10 @@ std::pair<Tile, Vec2i> LevelBase::get_overlapping_tile(Rectangle rect) const
 Vec2i LevelBase::get_player_spawn_tile() const
 {
 	const std::string_view level_data = get_level_data();
-	auto spawn_location = std::find_if(
-		std::begin(level_data), std::end(level_data), [&level_data](char ch) {
+	auto spawn_location =
+		std::find_if(std::begin(level_data), std::end(level_data), [](char ch) {
 			return ch == static_cast<char>(Tile::SPAWN);
-		}
-	);
+		});
 
 	if (spawn_location == std::end(level_data)) {
 		throw std::runtime_error("no spawn location defined!");

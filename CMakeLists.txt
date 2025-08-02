@@ -3,10 +3,10 @@ project(GMTK-2025)
 
 set(SRC_FILES
 	src/systems/texture_cacher.cpp src/systems/texture_cacher.hpp
-	
+
 	src/levels/level1.cpp src/levels/level1.hpp
 	src/level.cpp src/level.hpp
-	
+
 	src/player.cpp src/player.hpp
 	src/game.cpp src/game.hpp
 	src/vec2i.hpp
@@ -45,6 +45,8 @@ set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_EXTENSIONS OFF)
 set_property(TARGET ${PROJECT_NAME} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}")
 
-if (MSVC) 
+if (MSVC)
 	target_compile_options(${PROJECT_NAME} PRIVATE /W4 /WX)
+else()
+	target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -pedantic)
 endif()
