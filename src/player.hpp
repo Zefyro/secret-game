@@ -19,4 +19,9 @@ public:
 private:
 	void move_and_slide(const LevelBase& level);
 	void update_grounded(const LevelBase& level);
+	void update_timers();
+
+private:
+	float m_CayoteTimer = 0.0f;
+	float m_JumpBufferTimer = 0.0f;
 };

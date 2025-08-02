@@ -27,6 +27,7 @@ void Player::update(const LevelBase& level)
 	velocity.y += gravity * delta;
 
 	update_grounded(level);
+	update_timers();
 
 	if (IsKeyDown(KEY_A)) {
 		velocity.x -= ground_accelration * delta;
@@ -34,8 +35,10 @@ void Player::update(const LevelBase& level)
 	if (IsKeyDown(KEY_D)) {
 		velocity.x += ground_accelration * delta;
 	}
-	if (IsKeyPressed(KEY_W) && on_ground) {
+	if (m_JumpBufferTimer > 0.0f && m_CayoteTimer > 0.0f) {
 		velocity.y = -jump_initial_force;
+		m_CayoteTimer = 0.0f;
+		m_JumpBufferTimer = 0.0f;
 	}
 	if (IsKeyDown(KEY_W) && velocity.y < 0.0f) {
 		velocity.y -= jump_hold_force * delta;
@@ -110,6 +113,23 @@ void Player::update_grounded(const LevelBase& level)
 		position.x, position.y + size.y, size.x, 1
 	};
 	on_ground = level.get_overlapping_tile(grounded_hitbox).first != Tile::AIR;
+}
+
+void Player::update_timers()
+{
+	const float delta = GetFrameTime();
+
+	m_CayoteTimer -= delta;
+	m_JumpBufferTimer -= delta;
+
+	if (on_ground) {
+		constexpr float CayoteTime = 0.10f;
+		m_CayoteTimer = CayoteTime;
+	}
+	if (IsKeyPressed(KEY_W)) {
+		constexpr float JumpTime = 0.10f;
+		m_JumpBufferTimer = JumpTime;
+	}
 }
 
 void Player::draw() const
