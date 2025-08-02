@@ -1,4 +1,5 @@
 #pragma once
+#include <cstddef>
 #include <raylib.h>
 
 struct Vec2i {
@@ -34,6 +35,11 @@ constexpr Vec2i operator*(Vec2i lh, int rh)
 	return Vec2i{lh.x * rh, lh.y * rh};
 }
 
+constexpr Vec2i operator/(Vec2i lh, float rh)
+{
+	return Vec2i{static_cast<int>(lh.x / rh), static_cast<int>(lh.y / rh)};
+}
+
 constexpr Vector2 operator+(Vector2 lh, Vector2 rh)
 {
 	return Vector2{lh.x + rh.x, lh.y + rh.y};
@@ -52,6 +58,11 @@ constexpr Vector2 operator*(Vector2 lh, Vector2 rh)
 constexpr Vector2 operator*(Vector2 lh, float rh)
 {
 	return Vector2{lh.x * rh, lh.y * rh};
+}
+
+constexpr Vector2 operator/(Vector2 lh, float rh)
+{
+	return Vector2{lh.x / rh, lh.y / rh};
 }
 
 template <typename T>
