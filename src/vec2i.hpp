@@ -34,6 +34,26 @@ constexpr Vec2i operator*(Vec2i lh, int rh)
 	return Vec2i{lh.x * rh, lh.y * rh};
 }
 
+constexpr Vector2 operator+(Vector2 lh, Vector2 rh)
+{
+	return Vector2{lh.x + rh.x, lh.y + rh.y};
+}
+
+constexpr Vector2 operator-(Vector2 lh, Vector2 rh)
+{
+	return Vector2{lh.x - rh.x, lh.y - rh.y};
+}
+
+constexpr Vector2 operator*(Vector2 lh, Vector2 rh)
+{
+	return Vector2{lh.x * rh.x, lh.y * rh.y};
+}
+
+constexpr Vector2 operator*(Vector2 lh, float rh)
+{
+	return Vector2{lh.x * rh, lh.y * rh};
+}
+
 template <typename T>
 constexpr float lerp(const T& initial, const T& target, float time)
 {
